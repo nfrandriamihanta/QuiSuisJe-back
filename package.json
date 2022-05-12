@@ -1,7 +1,7 @@
 {
   "name": "quisuisje-back",
   "version": "1.0.0",
-  "description": "",
+  "description": "Ceci est le backend du projet mobile pour enfant Qui Suis Je",
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
