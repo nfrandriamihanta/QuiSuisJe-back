@@ -1,0 +1,24 @@
+{
+  "name": "quisuisje-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nfrandriamihanta/QuiSuisJe-back.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nfrandriamihanta/QuiSuisJe-back/issues"
+  },
+  "homepage": "https://github.com/nfrandriamihanta/QuiSuisJe-back#readme",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.1"
+  }
+}
