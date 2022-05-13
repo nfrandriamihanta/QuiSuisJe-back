@@ -1,4 +1,5 @@
 const connect = require('../util/connexion')
+const token = require('../util/token')
 
 async function test() {
     const client = connect.getClient()
@@ -12,4 +13,26 @@ async function test() {
     }
 }
 
-test()
+exports.signIn = async function signIn(user) {
+    const client = connect.getClient()
+    date = null
+    let result = {}
+    try {
+        await client.connect()
+        user.password = token.hashPwd(user.password)
+        result = await client.db(connect.dbName).collection('User').findOne(user)
+        if (result) {
+            date = Date()
+            result.token = token.generateToken(result.identifier, date)
+            resp = await client.db(connect.dbName).collection('User').updateOne({
+                "identifier": result.identifier,
+                "password": result.password
+            }, { $set: result })
+        }
+    } catch (e) {
+        console.error(e)
+    } finally {
+        await client.close()
+    }
+    return result
+}

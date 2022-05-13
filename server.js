@@ -5,6 +5,8 @@ const app = express();
 
 const cors = require('cors');
 
+const user = require("./user/user")
+
 
 app.use(cors({
     origin: '*'
@@ -22,6 +24,29 @@ app.use("/", router);
 // define the first route
 router.get("/", function (req, res) {
     res.send("<h1>Your server is still working well!</h1>")
+})
+
+router.post("/connexion", async function (req, res) {
+    let result = {}
+    try {
+        result = await user.signIn(req.body)
+        console.log(result)
+        if (result) res.status(200).json({
+            "message": "Authentification réussie",
+            "status": 200,
+            "res": result
+        })
+        else res.status(200).json({
+            "message": "Authentification échouée",
+            "status": 400,
+        })
+    } catch (e) {
+        console.error(e)
+        res.status(400).json({
+            "message": "Authentification échouée",
+            "status": 400
+        })
+    }
 })
 
 // start the server listening for requests
