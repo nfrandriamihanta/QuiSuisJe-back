@@ -23,7 +23,6 @@ exports.signIn = async function signIn(user) {
         result = await client.db(connect.dbName).collection('User').findOne(user)
         if (result) {
             date = Date()
-            result.token = token.generateToken(result.identifier, date)
             resp = await client.db(connect.dbName).collection('User').updateOne({
                 "identifier": result.identifier,
                 "password": result.password
