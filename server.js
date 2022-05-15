@@ -50,6 +50,7 @@ router.post("/connexion", async function (req, res) {
 })
 
 router.get("/testWs", async function (req, res) {
+    console.log("route atteinte!!");
     res.status(200).json({
         "message": "test réussi",
         "status": "200"
