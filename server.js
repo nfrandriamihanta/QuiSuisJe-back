@@ -6,6 +6,7 @@ const app = express();
 const cors = require('cors');
 
 const user = require("./user/user")
+const lesson = require("./lesson/lesson")
 
 
 app.use(cors({
@@ -50,12 +51,56 @@ router.post("/connexion", async function (req, res) {
 })
 
 router.get("/testWs", async function (req, res) {
-    console.log("route atteinte!!");
     res.status(200).json({
         "message": "test réussi",
         "status": "200"
     })
 })
+
+router.get("/themes", async function (req, res) {
+    let result = {}
+    try {
+        result = await lesson.findAllTopics()
+        console.log(result)
+        if (result) res.status(200).json({
+            "status": 200,
+            "res": result
+        })
+        else res.status(200).json({
+            "message": "Aucune donnée",
+            "status": 400,
+        })
+    } catch (e) {
+        console.error(e)
+        res.status(400).json({
+            "message": "Un problème est survenu lors de l'opération",
+            "status": 400
+        })
+    }
+})
+
+router.post("/suggestion", async function (req, res) {
+    let result = {}
+    try {
+        result = await user.suggestTopic(req.body)
+        console.log(result)
+        if (result.modifiedCount >= 1) res.status(200).json({
+            "status": 200,
+            "message": "Suggestion envoyée à l'administrateur"
+        })
+        else res.status(200).json({
+            "message": "Echec de l'envoi de la suggestion",
+            "status": 400,
+        })
+    } catch (e) {
+        console.error(e)
+        res.status(400).json({
+            "message": "Un problème est survenu lors de l'opération",
+            "status": 400
+        })
+    }
+})
+
 
 // start the server listening for requests
 app.listen(process.env.PORT || 3000,

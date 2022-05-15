@@ -35,3 +35,21 @@ exports.signIn = async function signIn(user) {
     }
     return result
 }
+
+//param => new topic and username
+exports.suggestTopic = async function suggestTopic(param) {
+    const client = connect.getClient()
+    let result = {}
+    try {
+        await client.connect()
+        result = await client.db(connect.dbName).collection('User').updateOne({
+            "identifier": param.identifier,
+        }, { $set: param })
+        console.log(result)
+    } catch (e) {
+        console.error(e)
+    } finally {
+        await client.close()
+    }
+    return result
+}
