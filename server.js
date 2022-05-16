@@ -101,6 +101,27 @@ router.post("/suggestion", async function (req, res) {
     }
 })
 
+router.post("/lecon", async function (req, res) {
+    let result = {}
+    try {
+        result = await lesson.findLessonsByTopic(req.body)
+        console.log(result)
+        if (result) res.status(200).json({
+            "status": 200,
+            "res": result
+        })
+        else res.status(200).json({
+            "message": "Aucune donnée",
+            "status": 400,
+        })
+    } catch (e) {
+        console.error(e)
+        res.status(400).json({
+            "message": "Un problème est survenu lors de l'opération",
+            "status": 400
+        })
+    }
+})
 
 // start the server listening for requests
 app.listen(process.env.PORT || 3000,
