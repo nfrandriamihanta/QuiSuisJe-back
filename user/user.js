@@ -1,3 +1,5 @@
+const { param } = require('express/lib/request')
+const res = require('express/lib/response')
 const connect = require('../util/connexion')
 const token = require('../util/token')
 
@@ -53,3 +55,48 @@ exports.suggestTopic = async function suggestTopic(param) {
     }
     return result
 }
+
+async function isEvalExists(param) {
+    const client = connect.getClient()
+    let result = {}
+    try {
+        await client.connect()
+        result = await client.db(connect.dbName).collection('Evaluation').findOne(param)
+        if (result) {
+            return true;
+        }
+    } catch (e) {
+        console.error(e)
+    } finally {
+        await client.close()
+    }
+    return false
+}
+
+exports.submitEval = async function submitEval(param) {
+    const client = connect.getClient()
+    let result = {}
+    try {
+        await client.connect()
+        if (!await isEvalExists({
+            "identifier": param.identifier,
+            "topic": param.topic
+        })) {
+            result = await client.db(connect.dbName).collection('Evaluation').insertOne(param)
+        } else {
+            result = await client.db(connect.dbName).collection('Evaluation').updateOne({
+                "identifier": param.identifier,
+                "topic": param.topic
+            }, { $set: param })
+        }
+        console.log(result)
+    } catch (e) {
+        console.error(e)
+    } finally {
+        await client.close()
+    }
+    return result
+}
+
+
+
