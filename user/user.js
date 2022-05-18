@@ -98,5 +98,36 @@ exports.submitEval = async function submitEval(param) {
     return result
 }
 
+exports.findAllResultsByUser = async function findAllResultsByUser(user) {
+    const client = connect.getClient()
+    let result = {}
+    try {
+        await client.connect()
+        result = await client.db(connect.dbName).collection('Evaluation').find(user).toArray()
+        console.log(result)
+    } catch (e) {
+        console.error(e)
+    } finally {
+        await client.close()
+    }
+    return result
+}
+
+exports.getCorrection = async function getCorrection(param) {
+    const client = connect.getClient()
+    let result = {}
+    try {
+        await client.connect()
+        result = await client.db(connect.dbName).collection('Evaluation').findOne(param)
+        console.log(result)
+    } catch (e) {
+        console.error(e)
+    } finally {
+        await client.close()
+    }
+    return result
+}
+
+
 
 

@@ -141,6 +141,44 @@ router.post("/soumission", async function (req, res) {
     }
 })
 
+router.post("/resultats", async function (req, res) {
+    let result = {}
+    try {
+        result = await user.findAllResultsByUser(req.body);
+        console.log(result)
+        if (result) res.status(200).json({
+            "status": 200,
+            "res": result
+        })
+    } catch (e) {
+        console.error(e)
+        res.status(400).json({
+            "message": "Un problème est survenu lors de l'opération",
+            "status": 400
+        })
+    }
+})
+
+router.post("/corrige", async function (req, res) {
+    let result = {}
+    try {
+        result = await user.getCorrection(req.body);
+        console.log(result)
+        if (result) res.status(200).json({
+            "status": 200,
+            "res": result
+        })
+    } catch (e) {
+        console.error(e)
+        res.status(400).json({
+            "message": "Un problème est survenu lors de l'opération",
+            "status": 400
+        })
+    }
+})
+
+
+
 // start the server listening for requests
 app.listen(process.env.PORT || 3000,
     () => console.log("Server is running..."));
