@@ -1,6 +1,6 @@
 const connect = require('../util/connexion')
 
-findAllTopics = async function findAllTopics() {
+exports.findAllTopics = async function findAllTopics() {
     const client = connect.getClient()
     let result = {}
     try {
@@ -15,7 +15,6 @@ findAllTopics = async function findAllTopics() {
     return result
 }
 
-findAllTopics();
 
 exports.findLessonsByTopic = async function findLessonsByTopic(topic) {
     const client = connect.getClient()
